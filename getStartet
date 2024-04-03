@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Function to collect necessary inputs
+collect_inputs() {
+    # Get Mac's IP address
+    read -p "Enter your Mac's IP address: " MAC_IP_ADDRESS
+
+    # Get Mac's username
+    read -p "Enter your Mac's username: " MAC_USERNAME
+
+    # Get Password to connect 
+    read -p "Password" $PASSWORD
+
+    # Get additional text if needed
+    read -p "Enter any additional text you want to include (optional): " ADDITIONAL_TEXT
+}
+
+# Main function to execute
+main() {
+    collect_inputs
+
+    # Pass inputs to the main conversation script
+    ./main_conversation_script.sh "$MAC_IP_ADDRESS" "$MAC_USERNAME" "$PASSWORD" "$ADDITIONAL_TEXT"
+}
+
+main
