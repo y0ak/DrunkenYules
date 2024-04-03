@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Execute the first script
+echo "Executing first script..."
+./goodMorningNotDrunkenMe.sh
+
+# Execute the second script
+echo "Executing second script..."
+./ChatGPTTry1.sh
+
+# Execute the third script
+echo "Executing third script..."
+./third_script.sh
