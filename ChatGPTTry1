@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# Function to perform speech recognition
+perform_speech_recognition() {
+    # Record speech and save it to a temporary file
+    TEMP_AUDIO_FILE=$(mktemp)
+    arecord -f cd -t wav -d 5 -r 16000 "$TEMP_AUDIO_FILE"
+
+    # Perform speech recognition on the recorded audio
+    RECOGNIZED_TEXT=$(pocketsphinx_continuous -infile "$TEMP_AUDIO_FILE" 2>/dev/null)
+    echo "$RECOGNIZED_TEXT"
+
+    # Cleanup temporary files
+    rm "$TEMP_AUDIO_FILE"
+}
+
+# Function to send text to the AI model and get response
+get_ai_response() {
+    INPUT="$1"
+    RESPONSE=$(curl -s -X POST -H "Content-Type: application/json" -d "{\"text\":\"$INPUT\"}" https://api.openai.com/v1/ai/completions)
+    echo "$RESPONSE"
+}
+
+# Ask user for their input using speech input
+echo "Please say something:"
+INPUT=$(perform_speech_recognition)
+
+# Send input to AI model and get response
+RESPONSE=$(get_ai_response "$INPUT")
+
+# Display AI response on the screen
+echo "AI Response:"
+echo "$RESPONSE"
