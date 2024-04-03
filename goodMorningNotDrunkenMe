@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Display a message on the screen using GTK
+
+# Define the message
+MESSAGE="Hello!I hope you have a wonderful day!"
+
+# Use GTK to display the message
+gtk_dialog() {
+    zenity --info --text="$MESSAGE" --title="Greeting Script"
+}
+
+# Call the function to display the message
+gtk_dialog
