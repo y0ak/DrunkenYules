@@ -17,17 +17,26 @@ perform_speech_recognition() {
 # Function to send text to the AI model and get response
 get_ai_response() {
     INPUT="$1"
-    RESPONSE=$(curl -s -X POST -H "Content-Type: application/json" -d "{\"text\":\"$INPUT\"}" https://api.openai.com/v1/ai/completions)
-    echo "$RESPONSE"
+    RESPONSE=$(curl -s -X POST -H "Content-Type: application/json" -H "Authorization: Bearer YOUR_API_KEY" -d "{\"text\":\"$INPUT\"}" https://api.openai.com/v1/ai/completions)
+    echo "$RESPONSE" | jq -r '.choices[0].text'
 }
 
-# Ask user for their input using speech input
-echo "Please say something:"
-INPUT=$(perform_speech_recognition)
+# Main conversation loop
+while true; do
+    # Ask user for their input using speech input
+    echo "Please say something:"
+    INPUT=$(perform_speech_recognition)
 
-# Send input to AI model and get response
-RESPONSE=$(get_ai_response "$INPUT")
+    # Send input to AI model and get response
+    RESPONSE=$(get_ai_response "$INPUT")
 
-# Display AI response on the screen
-echo "AI Response:"
-echo "$RESPONSE"
+    # Display AI response
+    echo "AI Response:"
+    echo "$RESPONSE"
+
+    # Optionally, you can check for a specific exit command
+    if [[ "$INPUT" == "exit" ]]; then
+        echo "Goodbye!"
+        break
+    fi
+done
