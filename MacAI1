@@ -1,18 +1,20 @@
 #!/bin/bash
 
+MAC_IP_ADDRESS="$1"
+MAC_USERNAME="$2"
+ADDITIONAL_TEXT="$3"
+
 # Function to send text to the AI script and get response
 get_ai_response() {
     INPUT="$1"
-    RESPONSE=$(echo "$INPUT" | ssh username@mac_ip_address /bin/bash)  # Replace "username" with your Mac username and "mac_ip_address" with the IP address of your Mac
+    RESPONSE=$(echo "$INPUT" | ssh "$MAC_USERNAME@$MAC_IP_ADDRESS" /bin/bash)  
     echo "$RESPONSE"
 }
 
 # Function for speech-to-text conversion
 speech_to_text() {
     echo "Speak:"
-    arecord -f cd -t wav -d 5 -r 16000 | flac - -f --best --sample-rate 16000 -o out.flac >/dev/null 2>&1
-    INPUT=$(wget -q -U "Mozilla/5.0" --post-file out.flac --header "Content-Type: audio/x-flac; rate=16000" -O - "http://www.google.com/speech-api/v2/recognize?lang=en-US&client=chromium" | awk -F\" '{print $12}')
-    echo "$INPUT"
+    # Add your speech-to-text conversion logic here
 }
 
 # Main conversation loop
@@ -21,7 +23,6 @@ while true; do
     INPUT=$(speech_to_text)
 
     # Add additional text if needed
-    ADDITIONAL_TEXT="pretend to be Jarvis from Marvel"
     INPUT_WITH_ADDITIONAL_TEXT="$INPUT $ADDITIONAL_TEXT"
 
     # Send input to AI script and get response
@@ -37,5 +38,4 @@ while true; do
         break
     fi
 done
-
 
