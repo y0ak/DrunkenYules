@@ -1,9 +1,7 @@
 #!/bin/bash
 
-# Execute the first script
-echo "Executing first script..."
-./goodMorningNotDrunkenMe.sh
-
 # Execute the second script
 echo "Executing second script..."
-./ChatGPTTry1.sh
+./getStartet.sh
+
+
