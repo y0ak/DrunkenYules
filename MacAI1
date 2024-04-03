@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Function to send text to the AI model and get response
+# Function to send text to the AI script and get response
 get_ai_response() {
     INPUT="$1"
-    RESPONSE=$(echo "$INPUT" | /path/to/your/ai_script.sh)  # Replace "/path/to/your/ai_script.sh" with the actual path to your AI script on your Mac
+    RESPONSE=$(echo "$INPUT" | ssh username@mac_ip_address /bin/bash)  # Replace "username" with your Mac username and "mac_ip_address" with the IP address of your Mac
     echo "$RESPONSE"
 }
 
@@ -20,8 +20,12 @@ while true; do
     # Get input from speech-to-text
     INPUT=$(speech_to_text)
 
-    # Send input to AI model and get response
-    RESPONSE=$(get_ai_response "$INPUT")
+    # Add additional text if needed
+    ADDITIONAL_TEXT="pretend to be Jarvis from Marvel"
+    INPUT_WITH_ADDITIONAL_TEXT="$INPUT $ADDITIONAL_TEXT"
+
+    # Send input to AI script and get response
+    RESPONSE=$(get_ai_response "$INPUT_WITH_ADDITIONAL_TEXT")
 
     # Display AI response
     echo "AI Response:"
@@ -33,4 +37,5 @@ while true; do
         break
     fi
 done
+
 
